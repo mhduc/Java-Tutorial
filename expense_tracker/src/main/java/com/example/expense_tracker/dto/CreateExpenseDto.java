@@ -12,6 +12,4 @@ public class CreateExpenseDto {
     private String description;
     private double amount;
     private LocalDate date;
-}   private double amount;
-    private LocalDate date;
 }

@@ -22,7 +22,13 @@ public class ExpenseService {
 
     public Expense createExpense(CreateExpenseDto dto) throws ExpenseOperationException {
         try {
-            double amount = dto.getAmount() != null ? dto.getAmount() : 0.0;
+            if (dto.getDescription() == null || dto.getDescription().isBlank()) {
+                throw new ExpenseOperationException("Description must not be blank", null);
+            }
+            if (dto.getAmount() < 0) {
+                throw new ExpenseOperationException("Amount must be non-negative", null);
+            }
+            double amount = dto.getAmount();
             Expense expense = new Expense(0, dto.getDescription(), amount, dto.getDate() != null ? dto.getDate() : LocalDate.now());
             return expenseRepository.save(expense);
         } catch (IOException e) {

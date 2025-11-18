@@ -30,8 +30,23 @@ public class ExpenseTrackerApplication {
                     case "1":
                         System.out.print("Description: ");
                         String desc = scanner.nextLine();
+                        if (desc == null || desc.isBlank()) {
+                            System.out.println("Description must not be blank");
+                            break;
+                        }
                         System.out.print("Amount: ");
-                        double amount = Double.parseDouble(scanner.nextLine());
+                        String amountStr = scanner.nextLine();
+                        double amount;
+                        try {
+                            amount = Double.parseDouble(amountStr);
+                        } catch (NumberFormatException ex) {
+                            System.out.println("Invalid number format");
+                            break;
+                        }
+                        if (amount < 0) {
+                            System.out.println("Amount must be non-negative");
+                            break;
+                        }
                         controller.addExpense(desc, amount);
                         break;
                     case "2":
@@ -57,7 +72,18 @@ public class ExpenseTrackerApplication {
                         break;
                     case "6":
                         System.out.print("Month (1-12): ");
-                        int month = Integer.parseInt(scanner.nextLine());
+                        String monthStr = scanner.nextLine();
+                        int month;
+                        try {
+                            month = Integer.parseInt(monthStr);
+                        } catch (NumberFormatException ex) {
+                            System.out.println("Invalid number format");
+                            break;
+                        }
+                        if (month < 1 || month > 12) {
+                            System.out.println("Month must be between 1 and 12");
+                            break;
+                        }
                         controller.printMonthlyTotal(month);
                         break;
                     case "0":
